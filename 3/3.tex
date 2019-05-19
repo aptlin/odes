@@ -1,0 +1,977 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\hypersetup{%
+  colorlinks=true,
+  linkcolor=blue,
+  linkbordercolor={0 0 1}
+}
+
+\renewcommand\lstlistingname{Algorithm}
+\renewcommand\lstlistlistingname{Algorithms}
+\def\lstlistingautorefname{Alg.}
+\DeclareMathOperator{\Tr}{tr}
+\lstdefinestyle{Python}{
+    language        = Python,
+    frame           = lines,
+    basicstyle      = \footnotesize,
+    keywordstyle    = \color{blue},
+    stringstyle     = \color{green},
+    commentstyle    = \color{red}\ttfamily
+}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+% Edit these as appropriate
+\newcommand\hwnumber{1}                  % <-- homework number
+\newcommand\NetIDa{Sasha Illarionov}           % <-- NetID of person #1
+% \newcommand\NetIDb{netid12038}           % <-- NetID of person #2 (Comment this line out for problem sets)
+
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{\NetIDa}
+\rhead{\today}
+\lfoot{}
+\cfoot{}
+\rfoot{\small\thepage}
+\headsep 1.5em
+
+\begin{document}
+
+\section*{Problem 1}
+
+\begin{enumerate}[label=(\alph*)]
+	\item
+	      Consider the following system of equations:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      1 & -5 \\
+			      2 & -5
+		      \end{pmatrix} \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix} \\ \label{eq:init_1}
+		                                & =
+		      M \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix}\end{align}
+
+	      Let's compute the eigenvalues of the matrix:
+
+	      \begin{align}
+		      \det \begin{pmatrix}
+			      1 - \lambda & -5           \\
+			      2           & -5 - \lambda
+		      \end{pmatrix} & = (\lambda + 5)(\lambda - 1) + 10               \\
+		                                     & = \lambda ^ 2 + 4 \lambda + 5 \label{eq:char_1}
+	      \end{align}
+
+	      Therefore, $\lambda = -2 + i$ is an eigenvalue.\vspace{1in}\\
+	      Moreover, $w = \begin{pmatrix} 3 + i \\ 2 \end{pmatrix}$
+	      is a corresponding eigenvector, since
+	      \begin{align*}
+		      (M - \lambda I)w & =
+		      \begin{pmatrix}
+			      3 - i & -5     \\
+			      2     & -3 - i
+		      \end{pmatrix} \begin{pmatrix} 3 + i \\ 2 \end{pmatrix}\\
+		                       & = \begin{pmatrix}
+			      10 - 10         \\
+			      2(3+i) - 2(3+i)
+		      \end{pmatrix}  \\
+		                       & = \begin{pmatrix}
+			      0 \\0
+		      \end{pmatrix}
+	      \end{align*}
+
+	\item Note that $\overline{\lambda} = -2 - i$ is also a solution of the Equation \ref{eq:char_1}, implying that $\overline{\lambda}$ is also an eigenvalue. Moreover, since $\overline{(M-\lambda I)w} = (\overline{M} - \overline(\lambda I))\overline{w} = (M - \overline{\lambda} I) \overline{w}$, then $\overline{w} =  \begin{pmatrix}
+			      3-i \\
+			      2
+		      \end{pmatrix}$ is another eigenvector of $M$.
+
+	\item Now, consider the change of coordinates matrix $C = \begin{pmatrix}
+			      3 & -1 \\
+			      2 & 0
+		      \end{pmatrix}$, so that $\begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix} = C \begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix}$.
+
+	      Note that $\begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} = C \begin{pmatrix}
+			      \dot{u} \\
+			      \dot{v}
+		      \end{pmatrix}$, and thus
+	      \begin{align}
+		      C\begin{pmatrix}
+			      \dot{u} \\
+			      \dot{v}
+		      \end{pmatrix} & =
+		      M C \begin{pmatrix}
+			      \dot{u} \\
+			      \dot{v}
+		      \end{pmatrix},
+	      \end{align} which implies that
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{u} \\
+			      \dot{v}
+		      \end{pmatrix} & =
+		      C^{-1}M C \begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix}\\
+		                                 & =
+		      \frac{1}{2}\begin{pmatrix}
+			      0  & 1 \\
+			      -2 & 3
+		      \end{pmatrix} \begin{pmatrix}
+			      1 & -5 \\
+			      2 & -5
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      3 & -1 \\
+			      2 & 0
+		      \end{pmatrix}\begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix}\\
+		                                 & =
+		      \frac{1}{2}\begin{pmatrix}
+			      2 & -5 \\
+			      4 & -5
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      3 & -1 \\
+			      2 & 0
+		      \end{pmatrix}\begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix}\\
+		                                 & =
+		      \frac{1}{2}\begin{pmatrix}
+			      -4 & -2 \\
+			      2  & -4
+		      \end{pmatrix}\begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix}\\
+		                                 & =
+		      \begin{pmatrix}
+			      -2 & -1 \\
+			      1  & -2
+		      \end{pmatrix}\begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix} \label{eq:orthog_1}
+	      \end{align}
+	\item Consider the following equation:
+	      \begin{equation}
+		      \dot{z} = \lambda z \label{eq:complex_1}.
+	      \end{equation}
+
+	      Set $z = u + i v$ for real differentiable functions $u$ and $v$.
+	      Similarly, suppose that $\lambda = \alpha + i \beta$ for real scalars $\alpha$ and $\beta$.
+
+	      Note that
+	      \begin{align}
+		      \dot{u} + i \dot{v} & = (\alpha + i \beta) (u + i v)                 \\
+		                          & = \alpha u - \beta v + i (\beta u + \alpha v),
+	      \end{align} so the equation \ref{eq:complex_1} becomes
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{u} \\
+			      \dot{v}
+		      \end{pmatrix} & = \begin{pmatrix}
+			      \alpha & -\beta \\
+			      \beta  & \alpha
+		      \end{pmatrix} \begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix} \\
+		                                 & =
+		      \begin{pmatrix}
+			      -2 & -1 \\
+			      1  & -2
+		      \end{pmatrix} \begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix} \label{eq:complexed}
+	      \end{align}
+
+	\item Equation \ref{eq:complexed} coincides with Equation \ref{eq:orthog_1}.
+	\item Notice that all solutions of Equation $\ref{eq:complex_1}$ are in the form $z = z(0) \exp(\lambda t)$.
+	\item Let's find the real and imaginary components of the solution above. Note the following:
+	      \begin{align}
+		      z = u +  i v & = (u(0)  + i v(0)) \exp((\alpha + i \beta)t)                                                        \\
+		                   & =\exp(\alpha t)(u(0)  + i v(0))(\cos(\beta t) + i \sin(\beta t))                                    \\
+		                   & = \exp(\alpha t)(u(0)\cos(\beta t) - v(0)\sin(\beta t) + i (u(0)\sin(\beta t) + v(0)\cos(\beta t)))
+	      \end{align}
+
+	      Hence, $u(t) = \exp(\alpha t)(u(0)\cos(\beta t) - v(0)\sin(\beta t)) = \exp(\alpha t)\begin{pmatrix}
+			      \cos(\beta t) & -\sin(\beta t)
+		      \end{pmatrix} \begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix}$, and $v(t) = \exp(\alpha t) \begin{pmatrix}
+			      \sin(\beta t) & \cos(\beta t)
+		      \end{pmatrix} \begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix}$
+	\item Since we have shown already that real solutions of Equation \ref{eq:orthog_1} coincide with the real and imaginary components of complex solutions to Equation \ref{eq:complexed}, then, given that $\alpha = -2$ and $\beta = 1$, we obtain
+	      \begin{align}
+		      \begin{pmatrix}
+			      u(t) \\
+			      v(t)
+		      \end{pmatrix} & =
+		      \exp(\alpha t)\begin{pmatrix}
+			      \cos(\beta t) & -\sin(\beta t) \\
+			      \sin(\beta t) & \cos(\beta t)
+		      \end{pmatrix}  \begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix} \\
+		                                 & =
+		      \exp(-2 t)\begin{pmatrix}
+			      \cos(t) & -\sin(t) \\
+			      \sin(t) & \cos(t)
+		      \end{pmatrix}  \begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix}
+	      \end{align}
+	\item To find the solutions to Equation \ref{eq:init_1}, we return to the original coordinates:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      x(t) \\
+			      y(t)
+		      \end{pmatrix} & = C \begin{pmatrix}
+			      u(t) \\
+			      v(t)
+		      \end{pmatrix}                                                    \\
+		                                 & = \begin{pmatrix}
+			      3 & -1 \\
+			      2 & 0
+		      \end{pmatrix}
+		      \exp(-2 t)\begin{pmatrix}
+			      \cos(t) & -\sin(t) \\
+			      \sin(t) & \cos(t)
+		      \end{pmatrix}  \begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix}\\
+		                                 & = \exp(-2 t) \begin{pmatrix}
+			      3\cos(t) - \sin(t) & -3\sin(t) - \cos(t) \\
+			      2\cos(t)           & -2\sin(t)
+		      \end{pmatrix}\begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix}\label{eq:sol_1}
+	      \end{align}
+	\item Set $w = a + i b$, where $a = \begin{pmatrix}
+			      3 \\
+			      2
+		      \end{pmatrix}$ and $b = \begin{pmatrix}
+			      1 \\
+			      0
+		      \end{pmatrix}$. Note the following:
+	      \begin{align}
+		      w\exp(\lambda t) & = w \exp((-2 + i)t)                                        \\
+		                       & =\exp(-2t) (a + ib)(\cos(t) + i\sin(t))                    \\
+		                       & = \exp(-2t)(a\cos(t) - b\sin(t) + i(a\sin(t) + b\cos(t))),
+	      \end{align}
+	      so
+	      \begin{align}
+		      \Re(w \exp(\lambda t)) & = \exp(-2t)(a\cos(t) - b\sin(t)) \\
+		      \Im(w \exp(\lambda t)) & = \exp(-2t)(a\sin(t) + b\cos(t))
+	      \end{align}
+	      Then Equation $\ref{eq:sol_1}$ can be written as
+	      \begin{align}
+		      \begin{pmatrix}
+			      x(t) \\
+			      y(t)
+		      \end{pmatrix} & = \exp(-2 t) \begin{pmatrix}
+			      3\cos(t) - \sin(t) & -3\sin(t) - \cos(t) \\
+			      2\cos(t)           & -2\sin(t)
+		      \end{pmatrix}\begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix}                                   \\
+		                                 & = u(0) \exp(-2t)\left(\cos(t)\begin{pmatrix}
+				      3 \\
+				      2
+			      \end{pmatrix} - \sin(t) \begin{pmatrix}
+				      1 \\
+				      0
+			      \end{pmatrix}\right) \\
+		                                 & - v(0) \exp(-2t)\left(\sin(t)\begin{pmatrix}
+				      3 \\
+				      2
+			      \end{pmatrix}+ \cos(t)\begin{pmatrix}
+				      1 \\
+				      0
+			      \end{pmatrix}\right)   \\
+		                                 & = u(0) \Re(w \exp(\lambda t)) - v(0)\Im(w \exp(\lambda t))
+	      \end{align}
+	\item See the notebook.
+\end{enumerate}
+
+\section*{Problem 2}
+
+See the notebook for phase portraits.
+
+\begin{enumerate}[label=(\alph*)]
+	\item Consider the following system of equations $M$:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} & = \begin{pmatrix}
+			      -2 & 1  \\
+			      0  & -2
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix}
+	      \end{align}
+	      Notice that the matrix is a Jordan block corresponding to the eigenvalue $\lambda = -2$.
+	      Then the solution is in the form of a matrix exponent, which we compute as follows:
+	      \begin{align}
+		      z(t) & = \exp(Mt)z_0                                                            \\
+		           & = \exp\left(\left(-2 I + \begin{pmatrix}
+					      0 & 1 \\
+					      0 & 0
+				      \end{pmatrix}\right)t\right)z_0    \\
+		           & = \exp(-2t I) \left(I + \frac{1}{1!}\begin{pmatrix}
+			      0 & t \\
+			      0 & 0
+		      \end{pmatrix}\right)z_0 \\
+		           & = \exp(-2t)\begin{pmatrix}
+			      1 & t \\
+			      0 & 1
+		      \end{pmatrix}z_0
+	      \end{align}
+	      Hence, the solutions are in the form
+	      \begin{align}
+		      \begin{pmatrix}
+			      x(t) \\
+			      y(t)
+		      \end{pmatrix} & =\exp(-2t)\begin{pmatrix}
+			      1 & t \\
+			      0 & 1
+		      \end{pmatrix}\begin{pmatrix}
+			      x(0) \\
+			      y(0)
+		      \end{pmatrix}
+	      \end{align}
+	      The stationary point is a stable dicritic node.
+
+	\item Consider the following system of equations $M$:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} & = \begin{pmatrix}
+			      12 & 12 \\
+			      -9 & -9
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix}
+	      \end{align}
+	      Note that it is degenerate, so there exist no non-degenerate critical points.
+	      Let's compute the characteristic polynomial of $M$:
+	      \begin{align}
+		      (12 - \lambda)(-9 -  \lambda) + 9 \cdot 12 & =0  \\
+		      \Leftrightarrow \lambda ^2 -3\lambda       & = 0
+	      \end{align}
+	      Therefore, $\lambda = 0$ and $\lambda =3$ are eigenvalues, with $\begin{pmatrix}
+			      1  \\
+			      -1
+		      \end{pmatrix}$ and $\begin{pmatrix}
+			      4  \\
+			      -3
+		      \end{pmatrix}$ as corresponding eigenvectors.
+
+	      Changing the coordinates, we obtain the following system of equations:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{u} \\
+			      \dot{v}
+		      \end{pmatrix} & = \begin{pmatrix}
+			      0 & 0 \\
+			      0 & 3
+		      \end{pmatrix}\begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix},
+	      \end{align}
+	      which has solutions in the form:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      0 & 0        \\
+			      0 & \exp(3t)
+		      \end{pmatrix} \begin{pmatrix}
+			      u(0) \\
+			      v(0)
+		      \end{pmatrix}
+	      \end{align}
+
+	      Changing the coordinates back, we obtain:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      1  & 4  \\
+			      -1 & -3
+		      \end{pmatrix}\begin{pmatrix}
+			      0 & 0        \\
+			      0 & \exp(3t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      -3 & -4 \\
+			      1  & 1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0) \\
+		      \end{pmatrix}\\
+		                                 & =
+		      \begin{pmatrix}
+			      0 & 4 \exp(3t) \\
+			      0 & -3\exp(3t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      -3 & -4 \\
+			      1  & 1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0) \\
+		      \end{pmatrix}\\
+		                                 & =
+		      \begin{pmatrix}
+			      4\exp(3t)  & 4\exp(3t)  \\
+			      -3\exp(3t) & -3\exp(3t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0) \\
+		      \end{pmatrix}\\
+		                                 & =
+		      \exp(3t)\begin{pmatrix}
+			      4  & 4  \\
+			      -3 & -3
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0) \\
+		      \end{pmatrix}
+	      \end{align}
+
+	\item Consider the following system of equations $M$:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} & = \begin{pmatrix}
+			      -2 & -13 \\
+			      2  & 8
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix}
+	      \end{align}.
+
+	      Let's compute the characteristic polynomial:
+
+	      \begin{align}
+		      (-2 - \lambda)(8-\lambda) + 26  & = 0 \\
+		      (\lambda + 2)(\lambda - 8) + 26 & = 0 \\
+		      \lambda^2 -6 \lambda + 10       & = 0
+	      \end{align}
+	      Then the eigenvalues are $3 + i$ and  $3 - i$.
+
+	      Set $\lambda = 3 + i$.
+	      Now we find the eigenvector $v = \begin{pmatrix}
+			      a \\
+			      b
+		      \end{pmatrix}$:
+	      \begin{align}
+		                      & \begin{pmatrix}
+			      -5 - i & -13   \\
+			      2      & 5 - i
+		      \end{pmatrix}v   = 0                          \\
+		      \Leftrightarrow & \begin{pmatrix}
+			      -5a - 13b -ai \\
+			      2a + 5b - bi
+		      \end{pmatrix} v  =\begin{pmatrix}
+			      0 \\
+			      0
+		      \end{pmatrix} \\
+		      \Leftrightarrow & \begin{pmatrix}
+			      -2(5 + i)a - 26b \\
+			      2(5 + i)a + 26b
+		      \end{pmatrix} v  =\begin{pmatrix}
+			      0 \\
+			      0
+		      \end{pmatrix}
+	      \end{align}
+	      Therefore, $v= \begin{pmatrix}
+			      13     \\
+			      -5 - i
+		      \end{pmatrix}$ is an eigenvector.
+	      By the derivation in Problem 1, the real solutions are in the following form (for $\alpha = 3$ and $\beta = 1$):
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      13 & 0 \\
+			      -5 & 1
+		      \end{pmatrix}
+		      \exp(3 t)\begin{pmatrix}
+			      \cos( t) & -\sin( t) \\
+			      \sin( t) & \cos( t)
+		      \end{pmatrix}
+		      \frac{1}{13}
+		      \begin{pmatrix}
+			      1 & 0  \\
+			      5 & 13
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0)
+		      \end{pmatrix}\\
+		                                  & =
+		      \frac{\exp(3t)}{13}
+		      \begin{pmatrix}
+			      13 \cos(t)           & 13\sin(t)          \\
+			      -5 \cos(t) + \sin(t) & 5\sin(t) + \cos(t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      1 & 0  \\
+			      5 & 13
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0)
+		      \end{pmatrix}\\
+		                                  & =
+		      \frac{\exp(3t)}{13}
+		      \begin{pmatrix}
+			      13\cos(t) + 65\sin(t) & 169 \sin(t)           \\
+			      26\sin(t)             & 65\sin(t) + 13\cos(t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0)
+		      \end{pmatrix}\\
+		                                  & =
+		      \exp(3t)
+		      \begin{pmatrix}
+			      \cos(t) + 5\sin(t) & 13 \sin(t)         \\
+			      2\sin(t)           & 5\sin(t) + \cos(t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x(0) \\
+			      y(0)
+		      \end{pmatrix}
+	      \end{align}
+	      The critical point is an unstable focus.
+	\item Consider the following system of equations $M$:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} & = \begin{pmatrix}
+			      10  & 7   \\
+			      -14 & -11
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix}
+	      \end{align}
+	      Let's compute the characteristic polynomial:
+	      \begin{align}
+		      \lambda^2 + \lambda + (-110 + 98) & = 0 \\
+		      \lambda^2 + \lambda + -12         & = 0
+	      \end{align}
+	      Then $-4$ and $3$ are eigenvalues.
+	      For $\lambda = -4$, the eigenvector $u$ is such that
+	      \begin{align}
+		      \begin{pmatrix}
+			      14  & 7  \\
+			      -14 & -7
+		      \end{pmatrix}u = 0.
+	      \end{align}
+	      Set $u = \begin{pmatrix}
+			      1  \\
+			      -2
+		      \end{pmatrix}$.
+
+	      For $\lambda = 3$, the eigenvector $v$ is such that
+	      \begin{align}
+		      \begin{pmatrix}
+			      7   & 7   \\
+			      -14 & -14
+		      \end{pmatrix}u = 0.
+	      \end{align}
+	      Set $v = \begin{pmatrix}
+			      1  \\
+			      -1
+		      \end{pmatrix}$.
+
+	      Changing the basis to that of eigenvectors, we obtain the following system of equations:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{q} \\
+			      \dot{r}
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      -4 & 0 \\
+			      0  & 3
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      q \\
+			      r
+		      \end{pmatrix},
+	      \end{align}
+	      which has solutions in the form:
+	      \begin{align}
+		      \begin{pmatrix}
+			      q \\
+			      r
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      \exp(-4t) & 0        \\
+			      0         & \exp(3t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      q_0 \\
+			      r_0
+		      \end{pmatrix}.
+	      \end{align}
+
+	      Changing the coordinates back, we obtain:
+	      \begin{align}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      1  & 1  \\
+			      -2 & -1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      \exp(-4t) & 0        \\
+			      0         & \exp(3t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      -1 & -1 \\
+			      2  & 1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x_0 \\
+			      y_0
+		      \end{pmatrix} \\
+		                                  & =
+		      \begin{pmatrix}
+			      \exp(-4t)   & \exp(3t)  \\
+			      -2\exp(-4t) & -\exp(3t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      -1 & -1 \\
+			      2  & 1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x_0 \\
+			      y_0
+		      \end{pmatrix}\\
+		                                  & =
+		      \begin{pmatrix}
+			      -\exp(-4t) + 2\exp(3t)  & -\exp(-4t) + \exp(3t) \\
+			      2 \exp(-4t) -2 \exp(3t) & 2\exp(-4t) - \exp(3t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x_0 \\
+			      y_0
+		      \end{pmatrix}
+	      \end{align}
+	      The critical point is a saddle.
+	\item Consider the following system of equations $M$:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} & = \begin{pmatrix}
+			      5 & -4 \\
+			      3 & -2
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix}
+	      \end{align}
+
+	      Consider the characteristic polynomial of $M$:
+
+	      \begin{align}
+		      \lambda^2 - 3 \lambda + 2 & = 0
+	      \end{align}
+
+	      Then $1$ and $2$ are eigenvalues.
+
+	      For $\lambda = 1$, the corresponding eigenvector $u$ satisfies the following:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      4 & -4 \\
+			      3 & -3
+		      \end{pmatrix}u & =
+		      0.
+	      \end{align}
+
+	      Set $u=\begin{pmatrix}
+			      1 \\
+			      1
+		      \end{pmatrix}$.
+
+
+	      For $\lambda = 2$, the corresponding eigenvector $v$ satisfies the following:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      3 & -4 \\
+			      3 & -4
+		      \end{pmatrix}v & =
+		      0.
+	      \end{align}
+
+	      Set $v=\begin{pmatrix}
+			      4 \\
+			      3
+		      \end{pmatrix}$.
+
+	      Changing the basis to that of eigenvectors, we obtain the following system of equations:
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{q} \\
+			      \dot{r}
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      1 & 0 \\
+			      0 & 2
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      q \\
+			      r
+		      \end{pmatrix},
+	      \end{align}
+	      which has solutions in the form:
+	      \begin{align}
+		      \begin{pmatrix}
+			      q \\
+			      r
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      \exp(t) & 0        \\
+			      0       & \exp(2t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      q_0 \\
+			      r_0
+		      \end{pmatrix}.
+	      \end{align}
+
+	      Changing the coordinates back, we obtain:
+	      \begin{align}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      1 & 4 \\
+			      1 & 3
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      \exp(t) & 0        \\
+			      0       & \exp(2t)
+		      \end{pmatrix}
+		      (-1)\begin{pmatrix}
+			      3  & -4 \\
+			      -1 & 1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x_0 \\
+			      y_0
+		      \end{pmatrix} \\
+		                                  & =
+		      -\begin{pmatrix}
+			      \exp(t) & 4\exp(2t) \\
+			      \exp(t) & 3\exp(2t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      3  & -4 \\
+			      -1 & 1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x_0 \\
+			      y_0
+		      \end{pmatrix}\\
+		                                  & =
+		      -\begin{pmatrix}
+			      3\exp(t) - 4\exp(2t)  & -4\exp(t) + 4\exp(2t) \\
+			      3 \exp(t) -3 \exp(2t) & -4\exp(t) + 3\exp(2t)
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x_0 \\
+			      y_0
+		      \end{pmatrix}
+	      \end{align}
+	      The critical point is an unstable node.
+\end{enumerate}
+\section*{Problem 3}
+\begin{enumerate}[label=(\alph*)]
+	\item
+	      Consider the following system of equations parametrised by $s \in \mathbb{R}$:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{x} \\
+			      \dot{y}
+		      \end{pmatrix} & =
+		      \begin{pmatrix}
+			      -6 & -7 \\
+			      s  & 4
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      x \\
+			      y
+		      \end{pmatrix}.
+	      \end{align}
+
+	      Notice that the corresponding characteristic polynomial is
+	      \begin{align}
+		      \lambda^2 +  2\lambda + (-24 + 7s) & = 0.
+	      \end{align}
+
+	      Now, the discriminant of the quadratic is $\Delta = 4  -4 (7s -24) = 100 - 28s$.
+
+	      If $s = \frac{25}{7}$, then there is only one eigenvalue ($\lambda = -1$), and since the corresponding matrix is not diagonal, then the critical point is a stable degenerate node.
+
+	      If $s > \frac{25}{7}$, then $\Delta < 0$, and thus the critical value is a stable focus (since $\Tr M < 0, \det M > \frac{(\Tr M)^2} {2}$), and the matrix has two complex eigenvalues having a negative real component.
+
+	      If $s< \frac{25}{7}$, but $\sqrt{\Delta} < 2$, which is equivalent to $s > \frac{24}{7}$, then $\det M > 0$, and the critical  point is a stable node, with the matrix having two  real negative eigenvalues.
+
+	      If, on the other hand, $\sqrt{\Delta} > 2$, so that $s < \frac{24}{7}$, then the critical point is a saddle, with the matrix having two real eigenvalues of opposite sign.
+
+	      Otherwise, if $s = \frac{24}{7}$, then the matrix is degenerate. There are no non-degenerate critical points, and the matrix has two real eigenvalues, one zero and one negative.
+
+
+	\item
+
+	      If $s < \frac{24}{7}$, then the critical point $(0,0)$ is neither asymptotically nor Lyapunov stable.
+
+	      If $s = \frac{24}{7} \approx 3.4286$, then the critical point is unstable as well, since in this case the phase space consists of straight lines, which do not 'concentrate' around $(0,0)$.
+
+	      If $s > \frac{24}{7}$, then the critical point is both Lyapunov and asymptotically stable, since the real components of eigenvalues are negative.
+
+	\item See the notebook for phase portraits.
+\end{enumerate}
+
+\section*{Problem 4}
+Consider the following system of equations:
+
+\begin{align}
+	\begin{pmatrix}
+		\dot{x} \\
+		\dot{y}
+	\end{pmatrix} & =
+	\begin{pmatrix}
+		\sin(x) + \exp(y) - 1 \\
+		\sin(x - y)
+	\end{pmatrix}
+\end{align}
+\begin{enumerate}[label=(\alph*)]
+	\item See the notebook.
+	\item
+	      Let's compute the Jacobian matrix at (0,0):
+
+	      \begin{align}
+		      J(0,0) & =
+		      \begin{pmatrix}
+			      \frac{\partial \dot{x}}{\partial x} & \frac{\partial \dot{x}}{\partial y} \\
+			      \frac{\partial \dot{y}}{\partial x} & \frac{\partial \dot{y}}{\partial y}
+		      \end{pmatrix} \mid_{(0,0)}\\
+		             & = \begin{pmatrix}
+			      \cos(x)   & \exp{y}    \\
+			      \cos(x-y) & -\cos(x-y)
+		      \end{pmatrix} \mid_{(0,0)} \\
+		             & = \begin{pmatrix}
+			      1 & 1  \\
+			      1 & -1
+		      \end{pmatrix}
+	      \end{align}
+
+	      The corresponding linear system of equations is thus:
+
+	      \begin{align}
+		      \begin{pmatrix}
+			      \dot{u} \\
+			      \dot{v}
+		      \end{pmatrix}
+		        & =
+		      \begin{pmatrix}
+			      1 & 1  \\
+			      1 & -1
+		      \end{pmatrix}
+		      \begin{pmatrix}
+			      u \\
+			      v
+		      \end{pmatrix}
+	      \end{align}
+	\item See the notebook.
+	\item See the notebook.
+\end{enumerate}
+
+\end{document}
